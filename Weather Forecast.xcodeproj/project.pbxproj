@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		028D4DEF2AE9740500A5959F /* ForecastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028D4DEE2AE9740500A5959F /* ForecastModel.swift */; };
+		028D4DF12AE9863200A5959F /* WeatherIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028D4DF02AE9863200A5959F /* WeatherIconView.swift */; };
 		02A6A1DA2AE7FF500029435F /* Weather_ForecastApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A6A1D92AE7FF500029435F /* Weather_ForecastApp.swift */; };
 		02A6A1DC2AE7FF500029435F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A6A1DB2AE7FF500029435F /* ContentView.swift */; };
 		02A6A1DE2AE7FF520029435F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02A6A1DD2AE7FF520029435F /* Assets.xcassets */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		028D4DEE2AE9740500A5959F /* ForecastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastModel.swift; sourceTree = "<group>"; };
+		028D4DF02AE9863200A5959F /* WeatherIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconView.swift; sourceTree = "<group>"; };
 		02A6A1D62AE7FF500029435F /* Weather Forecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather Forecast.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02A6A1D92AE7FF500029435F /* Weather_ForecastApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather_ForecastApp.swift; sourceTree = "<group>"; };
 		02A6A1DB2AE7FF500029435F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				02A6A1DB2AE7FF500029435F /* ContentView.swift */,
 				02A6A1ED2AE80A8F0029435F /* LoadingView.swift */,
 				02A6A1F12AE816480029435F /* WeatherView.swift */,
+				028D4DF02AE9863200A5959F /* WeatherIconView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				02A6A2092AE8458E0029435F /* WeatherModel.swift */,
+				028D4DEE2AE9740500A5959F /* ForecastModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -179,6 +185,8 @@
 			dependencies = (
 			);
 			name = "Weather Forecast";
+			packageProductDependencies = (
+			);
 			productName = "Weather Forecast";
 			productReference = 02A6A1D62AE7FF500029435F /* Weather Forecast.app */;
 			productType = "com.apple.product-type.application";
@@ -207,6 +215,9 @@
 				Base,
 			);
 			mainGroup = 02A6A1CD2AE7FF500029435F;
+			packageReferences = (
+				028D4DF22AE9906800A5959F /* XCRemoteSwiftPackageReference "SwiftUIRefresh" */,
+			);
 			productRefGroup = 02A6A1D72AE7FF500029435F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -240,8 +251,10 @@
 				02A6A1DA2AE7FF500029435F /* Weather_ForecastApp.swift in Sources */,
 				02A6A20A2AE8458E0029435F /* WeatherModel.swift in Sources */,
 				02A6A1DC2AE7FF500029435F /* ContentView.swift in Sources */,
+				028D4DEF2AE9740500A5959F /* ForecastModel.swift in Sources */,
 				02A6A1FD2AE823350029435F /* WeatherRow.swift in Sources */,
 				02A6A1EE2AE80A8F0029435F /* LoadingView.swift in Sources */,
+				028D4DF12AE9863200A5959F /* WeatherIconView.swift in Sources */,
 				02A6A2022AE8343F0029435F /* PullToRefresh.swift in Sources */,
 				02A6A1FF2AE82E700029435F /* PermissionsDeniedView.swift in Sources */,
 				02A6A1F42AE816CE0029435F /* ModelData.swift in Sources */,
@@ -384,8 +397,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "/Users/consultant/Desktop/Take Home Assignment/Weather Forecast/Weather Forecast/info.plist";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need access to your location to provide you with weather updates for your current location";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to provide you with the best weather experience";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -416,8 +428,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "/Users/consultant/Desktop/Take Home Assignment/Weather Forecast/Weather Forecast/info.plist";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need access to your location to provide you with weather updates for your current location";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to provide you with the best weather experience";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -458,6 +469,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		028D4DF22AE9906800A5959F /* XCRemoteSwiftPackageReference "SwiftUIRefresh" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUIRefresh.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 02A6A1CE2AE7FF500029435F /* Project object */;
 }

@@ -1,4 +1,3 @@
-//
 //  Extensions.swift
 //  Weather Forecast
 //
@@ -16,11 +15,10 @@ extension Double {
     }
 }
 
-
 // Extension for adding rounded corners to specific corners
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(RoundedCorner(radius: radius, corners: corners) )
+        clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
@@ -37,14 +35,29 @@ struct RoundedCorner: Shape {
 
 extension WeatherViewModel: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last {
-            currentLocation = location
-            fetchWeather()
+        guard let location = locations.last else { return }
+        DispatchQueue.updateUI {
+            self.currentLocation = location
+            self.fetchWeather()
+            self.fetchForecast()
         }
     }
-    
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Failed to get location:", error)
+        DispatchQueue.updateUI {
+            print("Failed to get location: \(error)")
+        }
+    }
+}
+
+extension DispatchQueue {
+    static func updateUI(_ work: @escaping () -> Void) {
+        if Thread.isMainThread {
+            work()
+        } else {
+            DispatchQueue.main.async {
+                work()
+            }
+        }
     }
 }

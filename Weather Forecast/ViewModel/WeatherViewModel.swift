@@ -1,10 +1,3 @@
-//
-//  WeatherViewModel.swift
-//  Weather Forecast
-//
-//  Created by Consultant on 10/24/23.
-//
-
 import Foundation
 import CoreLocation
 import SwiftUI
@@ -16,8 +9,8 @@ class WeatherViewModel: NSObject, ObservableObject {
     private var weatherManager = WeatherManager()
     private var locationManager = CLLocationManager()
     public var currentLocation: CLLocation?
+    @Published var forecastData: Welcome?
     @Published var forecast: [ResponseBody.ForecastResponse]?
-
 
     override init() {
         super.init()
@@ -32,6 +25,7 @@ class WeatherViewModel: NSObject, ObservableObject {
             return
         }
         
+        isRefreshing = true
         Task {
             do {
                 let fetchedWeather = try await weatherManager.getCurrentWeather(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -41,32 +35,33 @@ class WeatherViewModel: NSObject, ObservableObject {
                 }
             } catch {
                 print("Error fetching weather:", error)
-                self.isRefreshing = false
+                DispatchQueue.main.async {
+                    self.isRefreshing = false
+                }
             }
         }
     }
+
     func fetchForecast() {
-        print("Fetching forecast...")
         guard let location = currentLocation else {
             print("Location not available.")
             return
         }
-
+        
+        isRefreshing = true
         Task {
             do {
                 let fetchedForecast = try await weatherManager.getFiveDayForecast(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                DispatchQueue.main.async { [self] in
-                    self.forecast = fetchedForecast.list
+                DispatchQueue.main.async {
+                    self.forecastData = fetchedForecast
                     self.isRefreshing = false
-        
                 }
             } catch {
                 print("Error fetching forecast:", error)
-                self.isRefreshing = false
+                DispatchQueue.main.async {
+                    self.isRefreshing = false
+                }
             }
         }
     }
-
 }
-
-

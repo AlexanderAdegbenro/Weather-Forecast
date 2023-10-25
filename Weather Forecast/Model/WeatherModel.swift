@@ -9,11 +9,16 @@ import Foundation
 struct ResponseBody: Decodable {
     
     var coord: CoordinatesResponse
-    var weather: [WeatherResponse]
-    var main: MainResponse
-    var name: String
-    var wind: WindResponse
-    var list: [ForecastResponse]?
+     var weather: [WeatherResponse]
+     var main: MainResponse
+     var name: String
+     var wind: WindResponse
+     var list: [ForecastResponse]?
+     var visibility: Int?
+     var dt: Int?
+     var sys: SysResponse?
+     var clouds: CloudsResponse?
+     var base: String?
 
     struct CoordinatesResponse: Decodable {
         var lon: Double
@@ -48,7 +53,17 @@ struct ResponseBody: Decodable {
              var dt_txt: String
      }
     
+    struct SysResponse: Decodable {
+           var type: Int?
+           var id: Int?
+           var country: String?
+           var sunrise: Int?
+           var sunset: Int?
+       }
     
+    struct CloudsResponse: Decodable {
+        var all: Int?
+    }
 }
 
 
