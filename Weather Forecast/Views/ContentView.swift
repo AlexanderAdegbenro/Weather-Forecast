@@ -7,15 +7,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     @StateObject var locationManager = LocationManager()
     var weatherManager = WeatherManager()
     @State var weather: ResponseBody?
-    @State private var isRefreshing: Bool = false
 
     func fetchWeather() async {
-        guard let location = locationManager.location else {
-            return
-        }
+        guard let location = locationManager.location else { return }
         
         do {
             weather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
@@ -23,31 +21,31 @@ struct ContentView: View {
             print("Error getting weather: \(error)")
         }
     }
+    
+    var weatherContent: some View {
+        switch locationManager.authorizationStatus {
+        case .notDetermined:
+            return AnyView(LoadingView())
+        case .restricted, .denied:
+            return AnyView(PermissionsDeniedView())
+        case .authorizedWhenInUse, .authorizedAlways:
+            if locationManager.location != nil && weather != nil {
+                return AnyView(WeatherView())
+            } else {
+                return AnyView(LoadingView())
+            }
+        case .none:
+            return AnyView(Text("Unknown Location Status"))
+        @unknown default:
+            return AnyView(Text("Unknown Location Status"))
+        }
+    }
 
     var body: some View {
         GeometryReader { geometry in
             ScrollView(showsIndicators: false) {
                 VStack {
-                    switch locationManager.authorizationStatus {
-                    case .notDetermined:
-                        LoadingView()
-                    case .restricted, .denied:
-                        PermissionsDeniedView()
-                    case .authorizedWhenInUse, .authorizedAlways:
-                        if let location = locationManager.location {
-                            if let weather = weather {
-                                WeatherView()
-                            } else {
-                                LoadingView()
-                            }
-                        } else {
-                            LoadingView()
-                        }
-                    case .none:
-                        Text("Unknown Location Status")
-                    @unknown default:
-                        Text("Unknown Location Status")
-                    }
+                    weatherContent
                 }
                 .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
             }
@@ -64,7 +62,6 @@ struct ContentView: View {
                 }
             }
             .preferredColorScheme(.dark)
-        
         }
     }
 }

@@ -110,3 +110,4 @@ struct Wind: Codable {
     let deg: Int
     let gust: Double
 }
+
