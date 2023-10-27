@@ -2,11 +2,10 @@ import SwiftUI
 
 struct WeatherView: View {
     @StateObject private var viewModel = WeatherViewModel()
-    @State private var weatherDataLoaded: Bool = false
     
     var headerContent: some View {
         VStack {
-            Text(viewModel.weather?.name ?? "Unknown")
+            Text(viewModel.weather?.name ?? "Loading..")
                 .font(.largeTitle)
                 .fontWeight(.regular)
                 .foregroundColor(.white)
@@ -27,7 +26,7 @@ struct WeatherView: View {
             
             HStack {
                 VStack(alignment: .leading) {
-                    Text(viewModel.weather?.weather[0].main ?? "Unknown")
+                    Text(viewModel.weather?.weather[0].main ?? "Loading..")
                         .font(.title2)
                         .foregroundColor(.white)
                     
@@ -56,18 +55,23 @@ struct WeatherView: View {
             
             let groupedForecasts = Dictionary(grouping: viewModel.forecastData?.list ?? [], by: { Date(timeIntervalSince1970: TimeInterval($0.dt)).formatted(.dateTime.day()) })
             
-            ForEach(Array(groupedForecasts.keys.sorted().prefix(5)), id: \.self) { day in
-                if let dailyForecasts = groupedForecasts[day] {
+            let currentDate = Calendar.current.startOfDay(for: Date())
+            let filteredKeys = groupedForecasts.keys.filter { dateKey in
+                return DateFormatter.localizedString(from: currentDate, dateStyle: .short, timeStyle: .none) != dateKey
+            }.sorted()
+            
+            ForEach(filteredKeys.prefix(5), id: \.self) { day in
+                if let dailyForecasts = groupedForecasts[day], let firstForecast = dailyForecasts.first {
                     let averageTemp = dailyForecasts.reduce(0, { $0 + $1.main.temp }) / Double(dailyForecasts.count)
                     
                     HStack {
-                        Text(Date(timeIntervalSince1970: TimeInterval(dailyForecasts[0].dt)).formatted(.dateTime.month().day()))
+                        Text(Date(timeIntervalSince1970: TimeInterval(firstForecast.dt)).formatted(.dateTime.month().day()))
                             .font(.headline)
                             .foregroundColor(.white)
                         
                         Spacer()
                         
-                        WeatherIconView(iconCode: dailyForecasts[0].weather[0].icon)
+                        WeatherIconView(iconCode: firstForecast.weather[0].icon)
                             .font(.system(size: 30))
                             .foregroundColor(.white)
                         
@@ -85,42 +89,44 @@ struct WeatherView: View {
         .shadow(color: .black.opacity(0.2), radius: 5, x: 2, y: 2)
     }
     
+    
     var body: some View {
-        ZStack {
-            if viewModel.isRefreshing {
-                ProgressView()
-                    .scaleEffect(1.5)
-                    .transition(.scale)
-            } else {
-                VStack(spacing: 10) {
-                    headerContent
-                    mainWeatherContent
-                    ScrollView {
-                        fiveDayForecastContent
+            ZStack {
+                if viewModel.weather == nil {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .animation(.easeInOut(duration: 0.5))
+                } else {
+                    VStack(spacing: 10) {
+                        headerContent
+                        mainWeatherContent
+                        ScrollView {
+                            LazyVStack {
+                                fiveDayForecastContent
+                            }
+                            .padding(.top, 80)
+                            .refreshable {
+                                viewModel.requestLocation()
+                                viewModel.fetchWeather()
+                                viewModel.fetchForecast()
+                            }
+                        }
                     }
-                    .padding(.top, 80)
+                    .padding(.horizontal)
+                    
+                    if viewModel.isRefreshing {
+                        ProgressView()
+                            .scaleEffect(1.5)
+                            .opacity(viewModel.isRefreshing ? 1 : 0)
+                            .animation(.easeInOut(duration: 0.5))
+                    }
                 }
-                .padding(.horizontal)
-                .refreshable {
-                    viewModel.fetchWeather()
-                    viewModel.fetchForecast()
-                }
-                .transition(.slide)
-                .animation(.easeInOut(duration: 1).delay(3.5), value: weatherDataLoaded)
-
             }
-        }
-
-        .edgesIgnoringSafeArea(.bottom)
-        .preferredColorScheme(.dark)
-        .onAppear {
-            viewModel.fetchWeather()
-            viewModel.fetchForecast()
-        }
-        .background(Color(red: 0.28627450980392155, green: 0.33725490196078434, blue: 0.4470588235294118))
-        .ignoresSafeArea()
-    }
-}
+            .edgesIgnoringSafeArea(.bottom)
+            .preferredColorScheme(.dark)
+            .background(Color(red: 0.286, green: 0.337, blue: 0.447))
+            .ignoresSafeArea()
+        }}
 
 struct WeatherView_Previews: PreviewProvider {
     static var previews: some View {

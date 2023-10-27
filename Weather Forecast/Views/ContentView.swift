@@ -11,7 +11,8 @@ struct ContentView: View {
     @StateObject var locationManager = LocationManager()
     var weatherManager = WeatherManager()
     @State var weather: ResponseBody?
-
+    @State private var hasLoadedData = false
+    
     func fetchWeather() async {
         guard let location = locationManager.location else { return }
         
@@ -40,7 +41,7 @@ struct ContentView: View {
             return AnyView(Text("Unknown Location Status"))
         }
     }
-
+    
     var body: some View {
         GeometryReader { geometry in
             ScrollView(showsIndicators: false) {
@@ -51,9 +52,12 @@ struct ContentView: View {
             }
             .background(Color(red: 0.28627450980392155, green: 0.33725490196078434, blue: 0.4470588235294118))
             .onAppear {
-                locationManager.requestLocation()
-                Task {
-                    await fetchWeather()
+                if !hasLoadedData {
+                    locationManager.requestLocation()
+                    Task {
+                        await fetchWeather()
+                    }
+                    hasLoadedData = true
                 }
             }
             .refreshable {
