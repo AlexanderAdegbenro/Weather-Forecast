@@ -1,4 +1,5 @@
 # Weather Forecast App
+![IMG_1D296D20327A-1](https://github.com/AlexanderAdegbenro/Weather-Forecast/assets/52863002/f3c8fede-b754-4b54-8c58-1a4db8b9bdf0)
 
 ## Overview
 
