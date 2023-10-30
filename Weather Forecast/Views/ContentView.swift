@@ -6,72 +6,65 @@
 //
 import SwiftUI
 
+// MARK: - ContentView
 struct ContentView: View {
     
-    @StateObject var locationManager = LocationManager()
-    var weatherManager = WeatherManager()
-    @State var weather: ResponseBody?
-    @State private var hasLoadedData = false
+    @StateObject var viewModel = WeatherViewModel()
     
-    func fetchWeather() async {
-        guard let location = locationManager.location else { return }
-        
-        do {
-            weather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
-        } catch {
-            print("Error getting weather: \(error)")
+    // MARK: - Computed Properties
+    
+    struct WeatherContentView: View {
+        @ObservedObject var viewModel: WeatherViewModel
+
+        var body: some View {
+            content
+                .task {
+                    if case .fetchedLocation(let location) = viewModel.loadingState {
+                        await viewModel.fetchWeatherAndForecast(for: location)
+                    }
+                }
         }
-    }
-    
-    var weatherContent: some View {
-        switch locationManager.authorizationStatus {
-        case .notDetermined:
-            return AnyView(LoadingView())
-        case .restricted, .denied:
-            return AnyView(PermissionsDeniedView())
-        case .authorizedWhenInUse, .authorizedAlways:
-            if locationManager.location != nil && weather != nil {
-                return AnyView(WeatherView())
-            } else {
+
+        var content: some View {
+            switch viewModel.loadingState {
+            case .idle, .fetchingLocation, .fetchingWeather, .fetchingForecast, .fetchedLocation:
                 return AnyView(LoadingView())
+                
+            case .fetchedWeatherAndForecast:
+                return AnyView(WeatherView(viewModel: viewModel))
+                
+            case .error(let message):
+                return AnyView(Text(message))
             }
-        case .none:
-            return AnyView(Text("Unknown Location Status"))
-        @unknown default:
-            return AnyView(Text("Unknown Location Status"))
         }
     }
+
+    
+    var backgroundColor: Color {
+        return Color(red: 0.286, green: 0.337, blue: 0.447)
+    }
+    
+    // MARK: - Body
     
     var body: some View {
         GeometryReader { geometry in
             ScrollView(showsIndicators: false) {
                 VStack {
-                    weatherContent
+                    WeatherContentView(viewModel: viewModel) // Replace weatherContent with this line
                 }
                 .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
             }
-            .background(Color(red: 0.28627450980392155, green: 0.33725490196078434, blue: 0.4470588235294118))
-            .onAppear {
-                if !hasLoadedData {
-                    locationManager.requestLocation()
-                    Task {
-                        await fetchWeather()
-                    }
-                    hasLoadedData = true
-                }
-            }
-            .refreshable {
-                Task {
-                    await fetchWeather()
-                }
-            }
+            .background(backgroundColor)
             .preferredColorScheme(.dark)
         }
     }
 }
+
+// MARK: - ContentView Previews
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+

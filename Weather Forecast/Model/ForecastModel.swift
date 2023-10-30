@@ -7,7 +7,7 @@
 
 import Foundation
 // MARK: - Welcome
-struct Welcome: Codable {
+struct Welcome: Codable, Equatable {
     let cod: String
     let message, cnt: Int
     let list: [List]
@@ -15,7 +15,7 @@ struct Welcome: Codable {
 }
 
 // MARK: - City
-struct City: Codable {
+struct City: Codable, Equatable {
     let id: Int
     let name: String
     let coord: Coord
@@ -24,12 +24,12 @@ struct City: Codable {
 }
 
 // MARK: - Coord
-struct Coord: Codable {
+struct Coord: Codable, Equatable {
     let lat, lon: Double
 }
 
 // MARK: - List
-struct List: Codable {
+struct List: Codable, Equatable {
     let dt: Int
     let main: MainClass
     let weather: [Weather]
@@ -40,7 +40,7 @@ struct List: Codable {
     let sys: Sys
     let dtTxt: String
     let rain: Rain?
-
+    
     enum CodingKeys: String, CodingKey {
         case dt, main, weather, clouds, wind, visibility, pop, sys
         case dtTxt = "dt_txt"
@@ -49,16 +49,16 @@ struct List: Codable {
 }
 
 // MARK: - Clouds
-struct Clouds: Codable {
+struct Clouds: Codable ,Equatable {
     let all: Int
 }
 
 // MARK: - MainClass
-struct MainClass: Codable {
+struct MainClass: Codable ,Equatable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, seaLevel, grndLevel, humidity: Int
     let tempKf: Double
-
+    
     enum CodingKeys: String, CodingKey {
         case temp
         case feelsLike = "feels_like"
@@ -73,39 +73,39 @@ struct MainClass: Codable {
 }
 
 // MARK: - Rain
-struct Rain: Codable {
+struct Rain: Codable ,Equatable {
     let the3H: Double
-
+    
     enum CodingKeys: String, CodingKey {
         case the3H = "3h"
     }
 }
 
 // MARK: - Sys
-struct Sys: Codable {
+struct Sys: Codable,Equatable{
     let pod: Pod
 }
 
-enum Pod: String, Codable {
+enum Pod: String, Codable ,Equatable{
     case d = "d"
     case n = "n"
 }
 
 // MARK: - Weather
-struct Weather: Codable {
+struct Weather: Codable ,Equatable {
     let id: Int
     let main: MainEnum
     let description, icon: String
 }
 
-enum MainEnum: String, Codable {
+enum MainEnum: String, Codable ,Equatable{
     case clear = "Clear"
     case clouds = "Clouds"
     case rain = "Rain"
 }
 
 // MARK: - Wind
-struct Wind: Codable {
+struct Wind: Codable ,Equatable{
     let speed: Double
     let deg: Int
     let gust: Double

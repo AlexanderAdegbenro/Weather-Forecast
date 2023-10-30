@@ -7,10 +7,7 @@
 
 import SwiftUI
 
-
-
 struct WeatherRow: View {
-    
     var name: String
     var value: String
     
@@ -19,7 +16,6 @@ struct WeatherRow: View {
             HStack() {
                 Text(name)
                     .font(.caption)
-                
                 Text(value)
                     .bold()
                     .font(.title2)

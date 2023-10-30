@@ -6,7 +6,7 @@
 
 import Foundation
 
-struct ResponseBody: Decodable {
+struct ResponseBody: Decodable, Equatable {
     
     var coord: CoordinatesResponse
      var weather: [WeatherResponse]
@@ -20,19 +20,19 @@ struct ResponseBody: Decodable {
      var clouds: CloudsResponse?
      var base: String?
 
-    struct CoordinatesResponse: Decodable {
+    struct CoordinatesResponse: Decodable, Equatable {
         var lon: Double
         var lat: Double
     }
 
-    struct WeatherResponse: Decodable {
+    struct WeatherResponse: Decodable , Equatable {
         var id: Double
         var main: String
         var description: String
         var icon: String
     }
 
-    struct MainResponse: Decodable {
+    struct MainResponse: Decodable , Equatable {
         var temp: Double
         var feels_like: Double
         var temp_min: Double
@@ -41,19 +41,19 @@ struct ResponseBody: Decodable {
         var humidity: Double
     }
     
-    struct WindResponse: Decodable {
+    struct WindResponse: Decodable , Equatable {
         var speed: Double
         var deg: Double
     }
     
-    struct ForecastResponse: Decodable {
+    struct ForecastResponse: Decodable , Equatable {
         var dt: Int
              var main: MainResponse
              var weather: [WeatherResponse]
              var dt_txt: String
      }
     
-    struct SysResponse: Decodable {
+    struct SysResponse: Decodable , Equatable {
            var type: Int?
            var id: Int?
            var country: String?
@@ -61,7 +61,7 @@ struct ResponseBody: Decodable {
            var sunset: Int?
        }
     
-    struct CloudsResponse: Decodable {
+    struct CloudsResponse: Decodable , Equatable {
         var all: Int?
     }
 }

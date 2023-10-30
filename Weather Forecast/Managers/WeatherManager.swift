@@ -1,6 +1,7 @@
 import Foundation
 import CoreLocation
 
+// MARK: - WeatherManager
 class WeatherManager: ObservableObject {
     
     enum WeatherError: Error {
@@ -21,31 +22,23 @@ class WeatherManager: ObservableObject {
     
     func getCurrentWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) async throws -> ResponseBody {
         let url = config.urlForCurrentWeather(latitude: latitude, longitude: longitude)
-        let (data, response) = try await self.session.fetchData(for: URLRequest(url: url))
-        
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw WeatherError.badServerResponse
-        }
-        do {
-            let decodedData = try JSONDecoder().decode(ResponseBody.self, from: data)
-            return decodedData
-        } catch let error as DecodingError {
-            throw WeatherError.failedDecoding(error)
-        } catch {
-            throw WeatherError.other(error)
-        }
+        return try await fetchDataAndDecode(from: url, decodingType: ResponseBody.self)
     }
     
     func getFiveDayForecast(latitude: CLLocationDegrees, longitude: CLLocationDegrees) async throws -> Welcome {
         let url = config.urlForFiveDayForecast(latitude: latitude, longitude: longitude)
+        return try await fetchDataAndDecode(from: url, decodingType: Welcome.self)
+    }
+    
+    private func fetchDataAndDecode<T: Decodable>(from url: URL, decodingType: T.Type) async throws -> T {
         let (data, response) = try await self.session.fetchData(for: URLRequest(url: url))
         
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             throw WeatherError.badServerResponse
         }
+        
         do {
-            let decodedData = try JSONDecoder().decode(Welcome.self, from: data)
-            return decodedData
+            return try JSONDecoder().decode(T.self, from: data)
         } catch let error as DecodingError {
             throw WeatherError.failedDecoding(error)
         } catch {
@@ -54,6 +47,7 @@ class WeatherManager: ObservableObject {
     }
 }
 
+// MARK: - Network Session
 protocol NetworkSession {
     func fetchData(for request: URLRequest) async throws -> (Data, URLResponse)
 }
@@ -64,6 +58,7 @@ extension URLSession: NetworkSession {
     }
 }
 
+// MARK: - WeatherAPIConfiguration
 struct WeatherAPIConfiguration {
     private let baseURL = "https://api.openweathermap.org/data/2.5"
     private let apiKey = "8d82e17bc8b285661a57dcc0dbb79fec"

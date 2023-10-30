@@ -67,7 +67,7 @@
 		02A6A1FE2AE82E700029435F /* PermissionsDeniedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsDeniedView.swift; sourceTree = "<group>"; };
 		02A6A2032AE836A30029435F /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		02A6A2092AE8458E0029435F /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
-		02C1605F2AE8733200F1171E /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
+		02AB98602AF00697009B4604 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 		02C160632AE8757D00F1171E /* info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = info.plist; path = ../info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,6 +112,7 @@
 		02A6A1CD2AE7FF500029435F = {
 			isa = PBXGroup;
 			children = (
+				02AB98602AF00697009B4604 /* info.plist */,
 				028D4E102AEC039700A5959F /* README.md */,
 				02A6A1D82AE7FF500029435F /* Weather Forecast */,
 				028D4E0F2AEBFD7600A5959F /* Utilities */,
@@ -133,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				02A6A1D92AE7FF500029435F /* Weather_ForecastApp.swift */,
-				02C1605F2AE8733200F1171E /* info.plist */,
 				02A6A1F92AE822FC0029435F /* Components */,
 				02A6A1EA2AE805770029435F /* Views */,
 				02A6A2062AE83A660029435F /* ViewModel */,
@@ -529,7 +529,7 @@
 				DEVELOPMENT_TEAM = LY52JA5JFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "/Users/consultant/Desktop/Take Home Assignment/Weather Forecast/Weather Forecast/info.plist";
+				INFOPLIST_FILE = "/Users/consultant/Desktop/Weather Forecast/info.plist";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to provide you with the best weather experience";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -560,7 +560,7 @@
 				DEVELOPMENT_TEAM = LY52JA5JFF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "/Users/consultant/Desktop/Take Home Assignment/Weather Forecast/Weather Forecast/info.plist";
+				INFOPLIST_FILE = "/Users/consultant/Desktop/Weather Forecast/info.plist";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to provide you with the best weather experience";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
