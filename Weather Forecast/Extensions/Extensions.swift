@@ -83,16 +83,3 @@ extension WeatherViewModel {
     }
 }
 
-// MARK: - DispatchQueue Extensions
-extension DispatchQueue {
-    /// Ensures the provided work is executed on the main thread.
-    static func updateUI(_ work: @escaping () -> Void) {
-        if Thread.isMainThread {
-            work()
-        } else {
-            DispatchQueue.main.async {
-                work()
-            }
-        }
-    }
-}
