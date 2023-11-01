@@ -50,7 +50,7 @@ struct ContentView: View {
         GeometryReader { geometry in
             ScrollView(showsIndicators: false) {
                 VStack {
-                    WeatherContentView(viewModel: viewModel) // Replace weatherContent with this line
+                    WeatherContentView(viewModel: viewModel)
                 }
                 .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
             }

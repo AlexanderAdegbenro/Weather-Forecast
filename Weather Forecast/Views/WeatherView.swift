@@ -4,7 +4,7 @@ struct WeatherView: View {
     @ObservedObject var viewModel: WeatherViewModel
 
     var headerContent: some View {
-        VStack {
+        LazyVStack {
             Text(viewModel.weatherName)
                 .font(.largeTitle)
                 .fontWeight(.regular)
@@ -16,14 +16,14 @@ struct WeatherView: View {
     }
 
     var mainWeatherContent: some View {
-        VStack {
+        LazyVStack {
             WeatherIconView(iconCode: viewModel.weatherIconCode)
                 .font(.system(size: 70))
                 .foregroundColor(.white)
                 .shadow(color: .black.opacity(0.2), radius: 5, x: 2, y: 2)
                 .padding()
-            HStack {
-                VStack(alignment: .leading) {
+            LazyHStack {
+                LazyVStack(alignment: .leading) {
                     Text(viewModel.weatherMain)
                         .font(.title2)
                         .foregroundColor(.white)
@@ -43,7 +43,7 @@ struct WeatherView: View {
     }
     
     func fiveDayForecastContent() -> some View {
-        VStack(alignment: .leading, spacing: 20) {
+        LazyVStack(alignment: .leading, spacing: 20) {
             Text("5-DAY FORECAST")
                 .font(.title2)
                 .bold()
